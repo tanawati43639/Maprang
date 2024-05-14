@@ -21,6 +21,7 @@ class Runner:
         self.energy = self.max_energy
     
     def drain_energy(self, drain_points):
+        if not isinstance(drain_points, int): raise CustomTypeError('drain_points is of invalid type')
         if drain_points < 0: raise CustomValueError('drain_points less than 0')
         if drain_points > self.max_energy: raise CustomValueError('drain_points more than max energy')
         self.energy -= drain_points
@@ -28,6 +29,7 @@ class Runner:
         return self.energy
     
     def recover_energy(self, recovery_amount):
+        if not isinstance(recovery_amount, int): raise CustomTypeError('recovery_amount is of invalid type')
         self.energy += recovery_amount
         if self.energy >= self.max_energy: self.energy = self.max_energy
         return self.energy
@@ -44,7 +46,12 @@ class Runner:
 if __name__ == '__main__':
     
     runner = Runner('Elijah', 18, 'South Africa', 5.8, 4.4)
-    runner.drain_energy(1000)
+
+    runner.drain_energy(10)
+    print(runner.energy)
+    runner.recover_energy(10)
+    print(runner.energy)
+
     # running a short race
     time_taken = runner.run_race('short', 2.0)
     print(f"Runner {runner.name} took {time_taken} seconds to run 2km!")

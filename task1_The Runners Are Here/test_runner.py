@@ -9,7 +9,7 @@ class TestRunner(unittest.TestCase):
         self.assertEqual(runner.name, 'Elijah')
         self.assertEqual(runner.age, 18)
         self.assertEqual(runner.country, 'Australia')
-        self.assertEqual(runner.sprint_speed, 5)
+        self.assertEqual(runner.sprint_speed, 5.8)
         self.assertEqual(runner.endurance_speed, 4.4)
         self.assertEqual(runner.energy, 1000)
 
