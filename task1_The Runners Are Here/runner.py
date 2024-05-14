@@ -3,7 +3,7 @@ from custom_errors import *
 class Runner:
 
     def __init__(self, name, age, country, sprint_speed, endurance_speed):
-        if not name.isalnum(): raise CustomTypeError('name is invalid type')
+        if not all(x.isalpha() or x.isspace() for x in name): raise CustomTypeError('name is invalid type')
         if not isinstance(age, int): raise CustomTypeError('age is invalid type')
         if age < 5 and age > 120: raise CustomValueError('check range value of age')
         if not isinstance(country, str): raise CustomTypeError('country is invalid type')
@@ -47,7 +47,9 @@ if __name__ == '__main__':
     
     runner = Runner('Elijah', 18, 'South Africa', 5.8, 4.4)
 
-    runner.drain_energy(10)
+    runner.drain_energy(1000)
+    print(runner.energy)
+    runner.drain_energy(1)
     print(runner.energy)
     runner.recover_energy(10)
     print(runner.energy)
