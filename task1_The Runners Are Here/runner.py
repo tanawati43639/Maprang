@@ -44,7 +44,7 @@ class Runner:
 if __name__ == '__main__':
     
     runner = Runner('Elijah', 18, 'South Africa', 5.8, 4.4)
-    runner.drain_energy(1001)
+    runner.drain_energy(1000)
     # running a short race
     time_taken = runner.run_race('short', 2.0)
     print(f"Runner {runner.name} took {time_taken} seconds to run 2km!")
