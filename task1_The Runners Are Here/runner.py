@@ -3,7 +3,7 @@ from custom_errors import *
 class Runner:
 
     def __init__(self, name, age, country, sprint_speed, endurance_speed):
-        if not all(x.isalpha() or x.isspace() for x in name): raise CustomTypeError('name is invalid type')
+        if not all(x.isalpha() or x.isspace() for x in name): raise CustomValueError('name is value invalid')
         if not isinstance(age, int): raise CustomTypeError('age is invalid type')
         if age < 5 and age > 120: raise CustomValueError('check range value of age')
         if not isinstance(country, str): raise CustomTypeError('country is invalid type')
