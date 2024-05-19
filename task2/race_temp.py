@@ -5,8 +5,11 @@ import math
 
 class Race(ABC):
     def __init__(self, distance, runners = None):
-        self.runners = []
         
+        # if (runners) is not None:
+        #     raise CustomTypeError('runners Type must be string')
+        self.runners = []
+
         self.race_type = self.race_type
         if type(self.race_type) is not str:
             raise CustomTypeError('Race Type must be string')
@@ -23,12 +26,11 @@ class Race(ABC):
     def add_runner(self, runner):
         if runner in self.runners:
             raise RunnerAlreadyExistsError('This runner already existed')
-        
-        if len(self.runners) > self.maximum_participants:
-            raise RaceIsFullError('A race is full, cannot add new runner') 
         self.runners.append(runner)
-        print(self.race_type, len(self.runners))
-        print(self.race_type, self.maximum_participants)
+        if len(self.runners) > 16:
+            print('A race is full, cannot add new runner')
+            #raise RaceIsFullError('A race is full, cannot add new runner')
+        
 
     def remove_runner(self, runner):
         if runner not in self.runners:
@@ -38,6 +40,7 @@ class Race(ABC):
     
     def conduct_race(self):
         result = []
+        
         if self.race_type == "short":
             for i, runner in enumerate(self.runners):
                 time_taken = runner.run_race("short", 1.0) * 1.2
@@ -66,21 +69,53 @@ class MarathonRace(Race):
     energy_per_km = 100
 
 if __name__ == '__main__':
-    short_race = ShortRace(0.5)
-    long_race = MarathonRace(5.0)
+    # short_race = ShortRace(0.5)
+    long_race = MarathonRace(5.0,[])
 
-    # Add a Runner
-    eli = Runner('Elijah', 18, 'Australia', 5.8, 4.4)
-    rup = Runner('Rupert', 23, 'Australia', 2.3, 1.9)
+    # # Add a Runner
+    # eli = Runner('Elijah', 18, 'Australia', 5.8, 4.4)
+    rup1 = Runner('Rupert1', 23, 'Australia', 2.3, 1.9)
     rup2 = Runner('Rupert2', 23, 'Australia', 2.3, 1.9)
-    rup3 = Runner('Rupert2', 23, 'Australia', 2.3, 1.9)
+    rup3 = Runner('Rupert3', 23, 'Australia', 2.3, 1.9)
+    rup4 = Runner('Rupert4', 23, 'Australia', 2.3, 1.9)
+    rup5 = Runner('Rupert5', 23, 'Australia', 2.3, 1.9)
+    rup6 = Runner('Rupert6', 23, 'Australia', 2.3, 1.9)
+    rup7 = Runner('Rupert7', 23, 'Australia', 2.3, 1.9)
+    rup8 = Runner('Rupert8', 23, 'Australia', 2.3, 1.9)
+    rup9 = Runner('Rupert9', 23, 'Australia', 2.3, 1.9)
+    rup10 = Runner('Rupert10', 23, 'Australia', 2.3, 1.9)
+    rup11 = Runner('Rupert11', 23, 'Australia', 2.3, 1.9)
+    rup12 = Runner('Rupert12', 23, 'Australia', 2.3, 1.9)
+    rup13 = Runner('Rupert13', 23, 'Australia', 2.3, 1.9)
+    rup14 = Runner('Ruper14', 23, 'Australia', 2.3, 1.9)
+    rup15 = Runner('Rupert15', 23, 'Australia', 2.3, 1.9)
+    rup16 = Runner('Rupert16', 23, 'Australia', 2.3, 1.9)
+    rup17 = Runner('Rupert16', 23, 'Australia', 2.3, 1.9)
 
-    short_race.add_runner(eli)
-    long_race.add_runner(rup)
+
+    # long_race.add_runner(eli)
+    long_race.add_runner(rup1)
     long_race.add_runner(rup2)
     long_race.add_runner(rup3)
+    long_race.add_runner(rup4)
+    long_race.add_runner(rup5)
+    long_race.add_runner(rup6)
+    long_race.add_runner(rup7)
+    long_race.add_runner(rup8)
+    long_race.add_runner(rup9)
+    long_race.add_runner(rup10)
+    long_race.add_runner(rup11)
+    long_race.add_runner(rup12)
+    long_race.add_runner(rup13)
+    long_race.add_runner(rup14)
+    long_race.add_runner(rup15)
+    long_race.add_runner(rup16)
+    long_race.add_runner(rup17)
+
 
     results = long_race.conduct_race()
-    for runner, time in results:
-        print(runner.name, time) 
+    print(len(results),results[16][0].name)
+    # for runner, time in results:
+    #     print(runner.name, time) 
+
 

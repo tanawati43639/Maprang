@@ -5,23 +5,32 @@ import math
 
 class Race(ABC):
     def __init__(self, distance, runners = None):
+
+        if not isinstance(distance, float): raise CustomTypeError('distance must be float')
+        if float(distance) < 0.0: raise CustomValueError('distance less than 0')
+
         self.runners = []
         self.race_type = "short"
         self.distance = distance
         self.energy_per_km = 100
     
     def add_runner(self, runner):
-        print(runner)
+        if runner in self.runners:
+            raise RunnerAlreadyExistsError('runner already existing in races.')
+        if len(self.runners) > self.maximum_participants:
+            raise RaceIsFullError('participants over the maximum number of participants')
         self.runners.append(runner)
     
     def remove_runner(self, runner):
+        if runner not in self.runners:
+            raise RunnerDoesntExistError('runner non-existent in races.')
         self.runners.remove(runner)
     
     def conduct_race(self):
         result = []
         if self.race_type == "short":
             for i, runner in enumerate(self.runners):
-                time_taken = runner.run_race("short", 1) * 1.2
+                time_taken = runner.run_race("short", self.distance) * 1.2
                 result.append((runner, time_taken))
         elif self.race_type == "long":
             for i, runner in enumerate(self.runners):
@@ -51,14 +60,14 @@ class ShortRace:
         self.time_multiplier = 1.2
     
     def add_runner(self, runner):
-        if runner.name in self.runners:
+        if runner in self.runners:
             raise RunnerAlreadyExistsError('runner already existing in races.')
         if len(self.runners) > self.maximum_participants:
             raise RaceIsFullError('participants over the maximum number of participants')
         self.runners.append(runner)
     
     def remove_runner(self, runner):
-        if runner.name not in self.runners:
+        if runner not in self.runners:
             raise RunnerDoesntExistError('runner non-existent in races.')
         self.runners.remove(runner)
     
@@ -96,14 +105,14 @@ class MarathonRace:
         self.time_multiplier = 1.2
     
     def add_runner(self, runner):
-        if runner.name in self.runners:
+        if runner in self.runners:
             raise RunnerAlreadyExistsError('runner already existing in races.')
         if len(self.runners) > self.maximum_participants:
             raise RaceIsFullError('participants over the maximum number of participants')
         self.runners.append(runner)
     
     def remove_runner(self, runner):
-        if runner.name not in self.runners:
+        if runner not in self.runners:
             raise RunnerDoesntExistError('runner non-existent in races.')
         self.runners.remove(runner)
     
@@ -140,4 +149,5 @@ if __name__ == '__main__':
     results = long_race.conduct_race()
     for runner, time in results:
         print(runner.name, time) 
+
 
