@@ -83,7 +83,7 @@ class Competition:
         
         # reorder rank
         tuple_runner = [value for key,value in self.leaderboard.items() if value is not None]
-        sorted(tuple_runner, key=lambda x:x[1], reverse=True)
+        tuple_runner = sorted(tuple_runner, key=lambda x:x[1], reverse=True)
         for index,runner in enumerate(tuple_runner):
             self.leaderboard[self.__get_ordinal(index + 1)] = runner
 
