@@ -32,12 +32,12 @@ class Competition:
             raise CustomValueError('list distances_short more than rounds')
         self.distances_short = distances_short
 
-        if distances_marathon is str and len(distances_marathon) != rounds:
+        if len(distances_marathon) != rounds:
             raise CustomValueError('list distances_marathon more than rounds')
         self.distances_marathon = distances_marathon
 
         self.leaderboard = {}
-        self.list_runner = []
+
         for i in range(1, len(self.runners) + 1):
             self.leaderboard[self.__get_ordinal(i)] = None
 
