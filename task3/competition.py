@@ -29,11 +29,11 @@ class Competition:
         self.rounds = rounds
 
         if len(distances_short) != rounds:
-            raise CustomValueError('list distances_short more than rounds')
+            raise CustomValueError('list distances_short must equal rounds')
         self.distances_short = distances_short
 
         if len(distances_marathon) != rounds:
-            raise CustomValueError('list distances_marathon more than rounds')
+            raise CustomValueError('list distances_marathon must equal rounds')
         self.distances_marathon = distances_marathon
 
         self.leaderboard = {}
