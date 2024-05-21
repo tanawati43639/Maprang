@@ -1,3 +1,4 @@
+# Copy and paste your code for competition.py here
 from race import *
 from runner import Runner
 
@@ -17,32 +18,36 @@ class Competition:
         return f"{n}{suffix}"
 
     def __init__(self, runners, rounds, distances_short, distances_marathon):
-        
+
         if not isinstance(runners, list):
-            raise CustomTypeError('Runners must be list')
+            raise CustomTypeError('Runners must be a list')
         self.runners = runners
 
+        if not isinstance(rounds, int):
+            raise CustomTypeError('Rounds must be an integer')
         if rounds <= 0:
             raise CustomValueError('rounds must be more than 0') 
         if rounds > self.MAX_ROUNDS:
             raise CustomValueError('rounds more than MAX_ROUNDS') 
         self.rounds = rounds
+
         if not isinstance(distances_short, list):
-            raise CustomTypeError('distances_short must be list')
+            raise CustomTypeError('distances_short must be a list')
         if len(distances_short) != rounds:
-            raise CustomValueError('list distances_short must equal rounds')
+            raise CustomValueError('list distances_short must equal to rounds')
         self.distances_short = distances_short
 
         if not isinstance(distances_marathon, list):
-            raise CustomTypeError('distances_marathon must be list')
+            raise CustomTypeError('distances_marathon must be a list')
         if len(distances_marathon) != rounds:
-            raise CustomValueError('list distances_marathon must equal rounds')
+            raise CustomValueError('list distances_marathon must equal to rounds')
         self.distances_marathon = distances_marathon
 
         self.leaderboard = {}
 
         for i in range(1, len(self.runners) + 1):
             self.leaderboard[self.__get_ordinal(i)] = None
+        
 
     def conduct_competition(self):
         current_round = 1
@@ -52,29 +57,30 @@ class Competition:
             short_race = ShortRace(self.distances_short[i], runners = self.runners)
             short_race.runners = self.runners
             short_result = self.conduct_race(short_race)
+            # print(short_result[0][1])
+            # print(short_result[1][1])
+            
+            # Recover energy for all DNF runners
+            if current_round == 3:
+                for runner in self.runners:
+                    runner.recover_energy(1000)
 
             # Conduct the Marathon race with all runners
-            marathon_rance = MarathonRace(self.distances_marathon[i], runners = self.runners)
-            marathon_rance.runners = self.runners
-            marathon_result = self.conduct_race(marathon_rance)
-
-            # Recover energy for all DNF runners
-            for runner in self.runners:
-                if runner.energy == 0:
-                    runner.recover_energy(1000)
+            marathon_race = MarathonRace(self.distances_marathon[i], runners = self.runners)
+            marathon_race.runners = self.runners
+            marathon_result = self.conduct_race(marathon_race)
 
             current_round += 1
             self.update_leaderboard(short_result)
             self.update_leaderboard(marathon_result)
-
+            i += 1
         return self.leaderboard
 
-    def conduct_race(self, race):
-        # return race.conduct_race()
+    def conduct_race(self,race):
         result = []
         if race.race_type == "short":
             for i, runner in enumerate(self.runners):
-                time_taken = runner.run_race("short", race.distance) * 1.2
+                time_taken = runner.run_race("short", 1.0) * 1.2
                 result.append((runner, time_taken))
         elif race.race_type == "long":
             for i, runner in enumerate(self.runners):
@@ -91,8 +97,9 @@ class Competition:
 
     def update_leaderboard(self, results):
         sorted_result = sorted(results, key=lambda x: x[1])
-        #print('sorted_result', [i[0].name + ',' + str(i[1]) for i in sorted_result])
+        # print('sorted_result', [i[0].name + ',' + str(i[1]) for i in sorted_result])
         leaderboard_keys = list(self.leaderboard.keys())
+    
         for i, runner_time in enumerate(sorted_result):
             if self.leaderboard[leaderboard_keys[i]] is None:
                 self.leaderboard[leaderboard_keys[i]] = (runner_time[0].name, len(results) - (i+1))
@@ -100,14 +107,13 @@ class Competition:
                 for key, value in self.leaderboard.items():
                     if value[0] ==  runner_time[0].name and runner_time[1] != 'DNF':
                         self.leaderboard[key] = (runner_time[0].name, len(results) - (i+1) + value[1])
-        
+
         # reorder rank
         tuple_runner = [value for key,value in self.leaderboard.items() if value is not None]
         tuple_runner = sorted(tuple_runner, key=lambda x:x[1], reverse=True)
         for index,runner in enumerate(tuple_runner):
             self.leaderboard[self.__get_ordinal(index + 1)] = runner
 
-        #print(self.leaderboard)
         return self.leaderboard
 
     def print_leaderboard(self):

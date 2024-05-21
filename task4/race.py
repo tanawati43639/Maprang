@@ -1,3 +1,4 @@
+# Copy and paste your code for race.py here
 from custom_errors import *
 from abc import ABC, abstractmethod
 from runner import Runner
@@ -5,7 +6,6 @@ import math
 
 class Race(ABC):
     def __init__(self, distance, runners = None):
-
         # if runners is not None:
         #     raise CustomTypeError('Runners must be none')
         self.runners = []
@@ -42,7 +42,7 @@ class Race(ABC):
         result = []
         if self.race_type == "short":
             for i, runner in enumerate(self.runners):
-                time_taken = runner.run_race("short", self.distance) * 1.2
+                time_taken = runner.run_race("short", 1.0) * 1.2
                 result.append((runner, time_taken))
         elif self.race_type == "long":
             for i, runner in enumerate(self.runners):
